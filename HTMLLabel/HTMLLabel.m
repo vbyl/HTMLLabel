@@ -712,7 +712,7 @@
                 [self replacePattern:@"<(area|base|br|col|command|embed|hr|img|input|link|meta|param|source)(\\s[^>]*)?>" inString:html withPattern:@"<$1/>"];
                 
                 //wrap in html tag
-                html = [NSString stringWithFormat:@"<html>%@</html>", html];
+                html = [NSMutableString stringWithFormat:@"<html>%@</html>", html];
                 
                 //parse
                 _html = html;
@@ -797,8 +797,8 @@
         //discard white-space before a line break
         if ([[_tokens lastObject] isSpace]) [_tokens removeLastObject];
         
-        NSInteger last = [_tokens count] - 1;
-        for (int i = last; i > last - count; i--)
+        long last = [_tokens count] - 1;
+        for (long i = last; i > last - count; i--)
         {
             if (i < 0 || ![_tokens[i] isLinebreak])
             {
@@ -846,7 +846,7 @@
         NSString *bullet = @"•";
         if (attributes.nextListIndex)
         {
-            bullet = [NSString stringWithFormat:@"%i.", attributes.nextListIndex];
+            bullet = [NSString stringWithFormat:@"%li.", (long)attributes.nextListIndex];
             ((HTMLTokenAttributes *)[_stack lastObject]).nextListIndex ++;
         }
         
